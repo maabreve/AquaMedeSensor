@@ -1,0 +1,22 @@
+{
+  "name": "aquamede-sensor",
+  "version": "1.0.0",
+  "description": "IOT sensor",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maabreve/AquaMedeSensor.git"
+  },
+  "author": "RedMonkeys",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maabreve/AquaMedeSensor/issues"
+  },
+  "homepage": "https://github.com/maabreve/AquaMedeSensor#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
