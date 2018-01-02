@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 
 var config = require('./config.js');
 
-var port = process.env.PORT || 3003;
+var port = process.env.PORT || 3002;
 
 app.use(bodyParser.json()); // get information from html forms
 app.use(bodyParser.urlencoded({ extended: true }));

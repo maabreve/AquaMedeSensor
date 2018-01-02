@@ -11,7 +11,7 @@ module.exports = function (app) {
         .post(function (req, res) {
 
             var request = require('request');
-            console.log('postman ', req.body);
+            
             var form = {
                 boardSerialNumber: req.body.boardSerialNumber,
                 timestamp: new Date(),
@@ -21,8 +21,10 @@ module.exports = function (app) {
             var formData = JSON.stringify(form);
             var contentLength = formData.length;
             console.log(formData);
+
+            // cloud
             request({
-                uri: 'http://localhost:3000/api/diaryflow',
+                uri: 'http://192.168.0.103:3000/api/diaryflow',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -30,29 +32,31 @@ module.exports = function (app) {
                 method: 'POST'
             }, function (errCloud, resCloud, bodyCloud) {
                 if (!errCloud && resCloud.statusCode == 200) {
-                    request({
-                        uri: 'http://localhost:3001/api/diaryflow',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: formData,
-                        method: 'POST'
-                    }, function (errLocal, resLocal, bodyLocal) {
-                        if (!errLocal && resLocal.statusCode == 200) {
-                            res.status(200).send(bodyLocal);
-                        } else {
-                            // TODO: handle
-                            console.log('error in post local diary flow ', errLocal);
-                            res.send(errLocal);
-                        }
-                    });
-
+                    // TODO: handle
+                    console.log('cloud diary flow posted');
                 } else {
                     // TODO: handle
-                    console.log('error in post cloud diary flow ', errCloud);
-                    res.send(errCloud);
+                    console.log('error in post cloud diary flow', errCloud);
                 }
             });
 
-        })
+            // local
+            request({
+                uri: 'http://192.168.0.103:3001/api/diaryflow',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: formData,
+                method: 'POST'
+            }, function (errLocal, resLocal, bodyLocal) {
+                if (!errLocal && resLocal.statusCode == 200) {
+                    console.log('local diary flow posted');
+                    res.status(200).send(bodyLocal);
+                } else {
+                    // TODO: handle
+                    console.log('error in post local diary flow ', errLocal);
+                    res.status(500).send(errLocal);
+                }
+            });
+        });
 }
