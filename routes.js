@@ -6,7 +6,16 @@ module.exports = function (app) {
     });
 
     // apis ===============================================================
-    // WATER SENSOR 
+    // WATER SENSOR
+
+
+    app.route('/api/dateTime')
+        .get(function (req, res) {
+            let now = (new Date()).toString();
+
+            res.status(200).json(now);
+        });
+
     app.route('/api/diaryflow')
         .post(function (req, res) {
 
@@ -23,10 +32,10 @@ module.exports = function (app) {
 
             var formData = JSON.stringify(form);
             var contentLength = formData.length;
-            
+            console.log('VAI POSTAR === ', form);
             // local
             request({
-                uri: 'http://192.168.0.103:3001/api/diaryflow',
+                uri: 'http://186.219.98.39:3001/api/diaryflow',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -34,7 +43,7 @@ module.exports = function (app) {
                 method: 'POST'
             }, function (errLocal, resLocal, bodyLocal) {
                 if (!errLocal && resLocal.statusCode == 200) {
-                    console.log('local diary flow posted');
+                    console.log('local diary flow posted ');
                     res.status(200).send(bodyLocal);
                 } else {
                     // TODO: handle
@@ -45,7 +54,7 @@ module.exports = function (app) {
 
             // cloud
             request({
-                uri: 'http://192.168.0.103:3000/api/diaryflow',
+                uri: 'http://186.219.98.39:3000/api/diaryflow',
                 headers: {
                     'Content-Type': 'application/json',
                 },
